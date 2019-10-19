@@ -1241,7 +1241,7 @@ impl<'a, 'tcx> LateLintPass<'a, 'tcx> for TrivialConstraints {
         if cx.tcx.features().trivial_bounds {
             let def_id = cx.tcx.hir().local_def_id(item.hir_id);
             let predicates = cx.tcx.predicates_of(def_id);
-            for &(predicate, span) in &predicates.predicates {
+            for &(predicate, span) in predicates.predicates {
                 let predicate_kind_name = match predicate {
                     Trait(..) => "Trait",
                     TypeOutlives(..) |
@@ -1518,10 +1518,10 @@ declare_lint_pass!(ExplicitOutlivesRequirements => [EXPLICIT_OUTLIVES_REQUIREMEN
 
 impl ExplicitOutlivesRequirements {
     fn lifetimes_outliving_lifetime<'tcx>(
-        inferred_outlives: &'tcx [ty::Predicate<'tcx>],
+        inferred_outlives: &'tcx [(ty::Predicate<'tcx>, Span)],
         index: u32,
     ) -> Vec<ty::Region<'tcx>> {
-        inferred_outlives.iter().filter_map(|pred| {
+        inferred_outlives.iter().filter_map(|(pred, _)| {
             match pred {
                 ty::Predicate::RegionOutlives(outlives) => {
                     let outlives = outlives.skip_binder();
@@ -1538,10 +1538,10 @@ impl ExplicitOutlivesRequirements {
     }
 
     fn lifetimes_outliving_type<'tcx>(
-        inferred_outlives: &'tcx [ty::Predicate<'tcx>],
+        inferred_outlives: &'tcx [(ty::Predicate<'tcx>, Span)],
         index: u32,
     ) -> Vec<ty::Region<'tcx>> {
-        inferred_outlives.iter().filter_map(|pred| {
+        inferred_outlives.iter().filter_map(|(pred, _)| {
             match pred {
                 ty::Predicate::TypeOutlives(outlives) => {
                     let outlives = outlives.skip_binder();
@@ -1560,7 +1560,7 @@ impl ExplicitOutlivesRequirements {
         &self,
         param: &'tcx hir::GenericParam,
         tcx: TyCtxt<'tcx>,
-        inferred_outlives: &'tcx [ty::Predicate<'tcx>],
+        inferred_outlives: &'tcx [(ty::Predicate<'tcx>, Span)],
         ty_generics: &'tcx ty::Generics,
     ) -> Vec<ty::Region<'tcx>> {
         let index = ty_generics.param_def_id_to_index[
