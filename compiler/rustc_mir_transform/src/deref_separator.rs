@@ -40,7 +40,7 @@ impl<'tcx> MutVisitor<'tcx> for DerefChecker<'tcx> {
                     let temp = self.patcher.new_internal_with_info(
                         ty,
                         self.local_decls[p_ref.local].source_info.span,
-                        LocalInfo::DerefTemp,
+                        Some(Box::new(LocalInfo::DerefTemp)),
                     );
 
                     // We are adding current p_ref's projections to our

@@ -106,9 +106,8 @@ impl<'tcx> Visitor<'tcx> for Collector<'_, 'tcx> {
         debug!("visit_local: index={:?} context={:?} location={:?}", index, context, location);
         // We're only interested in temporaries and the return place
         match self.ccx.body.local_kind(index) {
-            LocalKind::Arg => return,
-            LocalKind::Temp if self.ccx.body.local_decls[index].is_user_variable() => return,
-            LocalKind::ReturnPointer | LocalKind::Temp => {}
+            LocalKind::Temp | LocalKind::ReturnPointer => {}
+            LocalKind::Arg | LocalKind::Var => return,
         }
 
         // Ignore drops, if the temp gets promoted,
