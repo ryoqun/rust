@@ -108,73 +108,73 @@ LL |     let _t = tup.0.clone();
    |              ^^^^^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:70:25
+  --> $DIR/redundant_clone.rs:72:25
    |
 LL |     if b { (a.clone(), a.clone()) } else { (Alpha, a) }
    |                         ^^^^^^^^ help: remove this
    |
 note: this value is dropped without further use
-  --> $DIR/redundant_clone.rs:70:24
+  --> $DIR/redundant_clone.rs:72:24
    |
 LL |     if b { (a.clone(), a.clone()) } else { (Alpha, a) }
    |                        ^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:127:15
+  --> $DIR/redundant_clone.rs:129:15
    |
 LL |     let _s = s.clone();
    |               ^^^^^^^^ help: remove this
    |
 note: this value is dropped without further use
-  --> $DIR/redundant_clone.rs:127:14
+  --> $DIR/redundant_clone.rs:129:14
    |
 LL |     let _s = s.clone();
    |              ^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:128:15
+  --> $DIR/redundant_clone.rs:130:15
    |
 LL |     let _t = t.clone();
    |               ^^^^^^^^ help: remove this
    |
 note: this value is dropped without further use
-  --> $DIR/redundant_clone.rs:128:14
+  --> $DIR/redundant_clone.rs:130:14
    |
 LL |     let _t = t.clone();
    |              ^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:138:19
+  --> $DIR/redundant_clone.rs:140:19
    |
 LL |         let _f = f.clone();
    |                   ^^^^^^^^ help: remove this
    |
 note: this value is dropped without further use
-  --> $DIR/redundant_clone.rs:138:18
+  --> $DIR/redundant_clone.rs:140:18
    |
 LL |         let _f = f.clone();
    |                  ^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:150:14
+  --> $DIR/redundant_clone.rs:152:14
    |
 LL |     let y = x.clone().join("matthias");
    |              ^^^^^^^^ help: remove this
    |
 note: cloned value is neither consumed nor mutated
-  --> $DIR/redundant_clone.rs:150:13
+  --> $DIR/redundant_clone.rs:152:13
    |
 LL |     let y = x.clone().join("matthias");
    |             ^^^^^^^^^
 
 error: redundant clone
-  --> $DIR/redundant_clone.rs:204:11
+  --> $DIR/redundant_clone.rs:206:11
    |
 LL |     foo(&x.clone(), move || {
    |           ^^^^^^^^ help: remove this
    |
 note: this value is dropped without further use
-  --> $DIR/redundant_clone.rs:204:10
+  --> $DIR/redundant_clone.rs:206:10
    |
 LL |     foo(&x.clone(), move || {
    |          ^

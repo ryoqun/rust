@@ -62,6 +62,8 @@ fn main() {
     clone_then_move_cloned();
     hashmap_neg();
     false_negative_5707();
+    false_positive_10577();
+    false_positive_10517();
 }
 
 #[derive(Clone)]
@@ -238,4 +240,27 @@ fn false_negative_5707() {
     foo(&x, &mut y);
     let _z = x.clone(); // pr 7346 can't lint on `x`
     drop(y);
+}
+
+fn false_positive_10577() {
+    use std::sync::Arc;
+    #[derive(Clone)]
+    struct Account {
+        data: Arc<usize>,
+    }
+
+    fn take<T>(_a: &T) {
+    }
+
+    let account = Account {data: Arc::new(30)};
+    let data = account.data.clone();
+    take(&account);
+    take(&data);
+}
+
+#[allow(unused_variables)]
+fn false_positive_10517() {
+    let i: Box<_> = Box::new(1);
+    let j = i.clone();
+    assert_eq!(*i, 2);
 }
